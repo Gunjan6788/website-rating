@@ -1,4 +1,6 @@
 
+//data of the stars
+
 let star = document.querySelectorAll('i')
 console.log(star)
 for(let i=0; i<star.length; i++){
@@ -7,13 +9,32 @@ for(let i=0; i<star.length; i++){
     })
 }
 
+
+
+// fetching name and review by the user
+
 let name = document.getElementById('name').value
 let review = document.getElementById('review').value
 
-let btn_review = document.getElementById('btn_review').value
 
-// btn_review.addEventListener('click', function(){
+
+// getting data of current domain
+
+var domain = ""
+
+chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+        var tab = tabs[0];
+        var url = new URL(tab.url)
+        domain = url.hostname
+    });
+
+// operation after button click
+
+let btn_review = document.getElementById('btn_review')
+
+btn_review.addEventListener('click', function(){
+    event.preventDefault()
     
-// })
-
-console.log(window.location.hostname)
+    // set and get
+    
+})
