@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>Hello World</title>
-        <script src="jquery-3.1.0.min.js">
-            
-        </script>
-        <script src="popup.js">
-            
-        </script>
-    </head>
-    <body>
-        <h2 id="greet">Hello World!</h2>
-        <input id="name" type="text"/>
-    </body>
+
+<head>
+    <title>Hello World</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    </link>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    </link>
+</head>
+
+<body>
+    <form>
+        <h2>name</h2>
+        <input id="name" type="text" />
+        <h2>review</h2>
+        <input id="review" type="text" />
+        <button id="btn_review">
+            Add review
+        </button>
+        <div>
+            <span id="rating">
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+            </span>
+        </div>
+    </form>
+    <script src="popup.js"></script>
+</body>
+
 </html>
