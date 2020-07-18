@@ -17,30 +17,34 @@
 </head>
 <style>
     body {
-        min-width:500px;
+        min-width:350px;
         min-height:500px;
     }
   </style>
 
-<body>
+<body class="table-success">
     <form>
-        <h3 class="mb-4 text-center text-secondary mt-1 font-weight-bolder">YOUR REVIEW</h3>
+        <!-- <h3 class="mb-4 text-center text-secondary mt-1 font-weight-bolder">YOUR REVIEW</h3> -->
 
-        <div class="form-group col-6 mx-auto">
+        <div class="p-1 table-warning">
+            <h4 class="font-weight-bolder ml-2" id="site"></h4>
+        </div>
 
-            <label>Rate the site</label>
-            <br>
+        <div class="form-group col-8 mx-auto">
 
-            <span id="rating">
-                <i class="far fa-star fa-lg"></i>
-                <i class="far fa-star fa-lg"></i>
-                <i class="far fa-star fa-lg"></i>
-                <i class="far fa-star fa-lg"></i>
-                <i class="far fa-star fa-lg"></i>
-            </span>
-            <br>
+            <!-- <label>Rate the site</label> -->
+
+            <div class="mt-4">
+                <span id="rating">
+                    <i class="far fa-star fa-lg"></i>
+                    <i class="far fa-star fa-lg"></i>
+                    <i class="far fa-star fa-lg"></i>
+                    <i class="far fa-star fa-lg"></i>
+                    <i class="far fa-star fa-lg"></i>
+                </span>
+            </div>
             
-            <label class="mt-4">Name:</label>
+            <label class="mt-3">Name:</label>
             <input type="text" class="form-control" id="name">
 
             <label class="mt-4">Review:</label>

@@ -1,4 +1,6 @@
-// chrome.storage.sync.set({'name': [], 'review': []}, function(){
+
+// just to empty data set!
+// chrome.storage.sync.set({'name': [], 'review': [], 'domain': []}, function(){
 //         console.log("Data Entered")
 //     })
 
@@ -10,6 +12,10 @@ chrome.tabs.query({active: true, currentWindow: true}, tabs => {
         var tab = tabs[0];
         var url = new URL(tab.url)
         domain = url.hostname
+
+        var app = document.getElementById("site")
+        app.innerHTML = domain
+        // alert(domain)
     });
 
 // operation after button click
@@ -38,24 +44,35 @@ btn_review.addEventListener('click', function(){
     let name = document.getElementById('name').value
     let review = document.getElementById('review').value
 
-    var res = []
-    var res_w = []
 
-    chrome.storage.sync.get(['name', 'review'],function(data){
+    //getting our data through chrome storage
+
+    var user_name = []
+    var user_review = []
+    var site = []
+
+    chrome.storage.sync.get(['name', 'review', 'domain'],function(data){
         if(data.name){
-            res.push(data.name)
-            res_w.push(data.review)
+            user_name.push(data.name)
+            user_review.push(data.review)
+            site.push(data.domain)
+
             alert(data.name)
             alert(data.review)
+            alert(data.domain)
         }
         
     })
 
     setTimeout(function(){
-        res.push(name)
-        res_w.push(review)
 
-        chrome.storage.sync.set({'name': res, 'review': res_w}, function(){
+        //adding the new data
+        user_name.push(name)
+        user_review.push(review)
+        site.push(domain)
+
+        //adding the new data in the dataset
+        chrome.storage.sync.set({'name': user_name, 'review': user_review, 'domain': site}, function(){
         console.log("Data Entered")
     })
     
