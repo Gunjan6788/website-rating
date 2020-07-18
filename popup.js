@@ -1,3 +1,6 @@
+// chrome.storage.sync.set({'name': [], 'review': []}, function(){
+//         console.log("Data Entered")
+//     })
 
 // getting data of current domain
 
@@ -35,6 +38,29 @@ btn_review.addEventListener('click', function(){
     let name = document.getElementById('name').value
     let review = document.getElementById('review').value
 
+    var res = []
+    var res_w = []
+
+    chrome.storage.sync.get(['name', 'review'],function(data){
+        if(data.name){
+            res.push(data.name)
+            res_w.push(data.review)
+            alert(data.name)
+            alert(data.review)
+        }
+        
+    })
+
+    setTimeout(function(){
+        res.push(name)
+        res_w.push(review)
+
+        chrome.storage.sync.set({'name': res, 'review': res_w}, function(){
+        console.log("Data Entered")
+    })
     
+    },1000)
+    
+
     
 })
