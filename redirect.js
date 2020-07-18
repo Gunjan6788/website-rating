@@ -1,12 +1,12 @@
 //getting the data from local storage
 
-let items = "www.flipkart.com"
+let items = "github.com"
 
 if (localStorage.getItem('data')) {
     items = JSON.parse(localStorage.getItem('data'))
   } 
   else {
-    items = "www.flipkart.com"
+    items = "www.taniarascia.com"
   }
 
   var top = document.getElementById("site").innerHTML = items
