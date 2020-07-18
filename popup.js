@@ -47,37 +47,60 @@ btn_review.addEventListener('click', function(){
 
     //getting our data through chrome storage
 
-    var user_name = []
-    var user_review = []
-    var site = []
+    // var user_name = []
+    // var user_review = []
+    // var site = []
 
-    chrome.storage.sync.get(['name', 'review', 'domain'],function(data){
-        if(data.name){
-            user_name.push(data.name)
-            user_review.push(data.review)
-            site.push(data.domain)
+    // chrome.storage.sync.get(['name', 'review', 'domain'],function(data){
+    //     if(data.name){
+    //         user_name.push(data.name)
+    //         user_review.push(data.review)
+    //         site.push(data.domain)
 
-            alert(data.name)
-            alert(data.review)
-            alert(data.domain)
-        }
+    //         alert(data.name)
+    //         alert(data.review)
+    //         alert(data.domain)
+    //     }
         
-    })
+    // })
 
-    setTimeout(function(){
+    // setTimeout(function(){
 
-        //adding the new data
-        user_name.push(name)
-        user_review.push(review)
-        site.push(domain)
+    //     //adding the new data
+    //     user_name.push(name)
+    //     user_review.push(review)
+    //     site.push(domain)
 
-        //adding the new data in the dataset
-        chrome.storage.sync.set({'name': user_name, 'review': user_review, 'domain': site}, function(){
-        console.log("Data Entered")
-    })
+    //     //adding the new data in the dataset
+    //     chrome.storage.sync.set({'name': user_name, 'review': user_review, 'domain': site}, function(){
+    //     console.log("Data Entered")
+    // })
     
-    },1000)
+    // },1000)
     
+    
+    //getting data using mysql
+
+    let user = {
+        "name": name,
+        "review": review,
+        "stars": stars_given,
+        "website": domain
+      }
+
+    var send_response = ""
+      
+      let response = fetch('xyz.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+      })
+      .then(response=> response.json())
+      .then(res=>send_response=res["message"])
 
     
 })
+
+

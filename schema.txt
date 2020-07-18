@@ -1,0 +1,4 @@
+1-> py (flask, and mysqldb)
+
+schema---->
+    stat -> id, name, review, stars, website, date
