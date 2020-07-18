@@ -1,0 +1,8 @@
+body {
+    min-width: 800px;
+    min-height: 500px;
+}
+
+.far {
+    font-size: 40px;
+}
