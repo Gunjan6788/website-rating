@@ -1,12 +1,8 @@
 
-// just to empty data set!
-// chrome.storage.sync.set({'name': [], 'review': [], 'domain': []}, function(){
-//         console.log("Data Entered")
-//     })
-
 // getting data of current domain
 
 var domain = ""
+var send_response = []
 
 chrome.tabs.query({active: true, currentWindow: true}, tabs => {
         var tab = tabs[0];
@@ -15,7 +11,23 @@ chrome.tabs.query({active: true, currentWindow: true}, tabs => {
 
         var app = document.getElementById("site")
         app.innerHTML = domain
-        // alert(domain)
+
+        //api to fetch data
+
+        var user = {
+            "website": domain
+        }
+
+        let response = fetch('http://reviews.gunjan.tech/review/get', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(user)
+            })
+            .then(response=> response.json())
+            .then(res=>send_response=res["data"])
+
     });
 
 // operation after button click
@@ -36,6 +48,18 @@ for(let i=0; i<star.length; i++){
     })
 }
 
+
+//for visuals
+// setTimeout(function(){
+//     for(var k = 0; k < send_response.length; k++){
+        
+//         // dom code for details
+//         alert(send_response[k]["name"])
+
+//     }
+// }, 1000)
+
+
 btn_review.addEventListener('click', function(){
     event.preventDefault()
 
@@ -45,41 +69,7 @@ btn_review.addEventListener('click', function(){
     let review = document.getElementById('review').value
 
 
-    //getting our data through chrome storage
-
-    // var user_name = []
-    // var user_review = []
-    // var site = []
-
-    // chrome.storage.sync.get(['name', 'review', 'domain'],function(data){
-    //     if(data.name){
-    //         user_name.push(data.name)
-    //         user_review.push(data.review)
-    //         site.push(data.domain)
-
-    //         alert(data.name)
-    //         alert(data.review)
-    //         alert(data.domain)
-    //     }
-        
-    // })
-
-    // setTimeout(function(){
-
-    //     //adding the new data
-    //     user_name.push(name)
-    //     user_review.push(review)
-    //     site.push(domain)
-
-    //     //adding the new data in the dataset
-    //     chrome.storage.sync.set({'name': user_name, 'review': user_review, 'domain': site}, function(){
-    //     console.log("Data Entered")
-    // })
-    
-    // },1000)
-    
-    
-    //getting data using mysql
+    //api call for adding data to database
 
     let user = {
         "name": name,
@@ -88,19 +78,15 @@ btn_review.addEventListener('click', function(){
         "website": domain
       }
 
-    var send_response = ""
-      
-      let response = await fetch('xyz.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(user)
-      });
-      
-      let result = await response.json();
-
-      send_response = result.message
-
     
+      fetch('http://reviews.gunjan.tech/review/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(response => response.json())
+        .then(res => alert(res))
+
 })
