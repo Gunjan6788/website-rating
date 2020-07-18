@@ -78,15 +78,16 @@ btn_review.addEventListener('click', function(){
         "website": domain
       }
 
-    
-      fetch('http://reviews.gunjan.tech/review/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(user)
-        })
-        .then(response => response.json())
-        .then(res => alert(res))
+    var new_message = ""
 
+    let response = fetch('http://reviews.gunjan.tech/review/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+    })
+    .then(response => response.json())
+    .then(res => new_message=res["message"])
+    .then(res=>alert(new_message))
 })
