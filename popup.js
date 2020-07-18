@@ -15,7 +15,12 @@ chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     var user = {
         "website": domain
     }
+    get_data(user)
 
+});
+
+// get data 
+function get_data(user) {
     let response = fetch('http://reviews.gunjan.tech/review/get', {
         method: 'POST',
         headers: {
@@ -25,8 +30,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     })
         .then(response => response.json())
         .then(res => send_response = res["data"])
-
-});
+}
 
 let total_stars, star_1, star_2, star_3, star_4, star_5, len
 
@@ -58,8 +62,8 @@ setTimeout(function () {
 
     }
 
-    for (var k = 0; k < 6; k++) {
-        if(send_response.length !== 0){
+    for (var k = send_response.length-1; k > send_response.length-4; k--) {
+        if (send_response.length !== 0) {
             var reviews = document.getElementById("reviews")
 
             var reviews_card = document.createElement("div")
@@ -94,7 +98,7 @@ setTimeout(function () {
             var date = send_response[k]["date"].split(" ")
             var ftr = document.createElement("footer")
             ftr.setAttribute("class", "blockquote-footer")
-            ftr.innerHTML = date[0] 
+            ftr.innerHTML = date[0]
             ftr.style.fontSize = '10px'
 
 
@@ -112,20 +116,50 @@ setTimeout(function () {
     }
 }, 1000)
 
+
 //data of the stars
 var star = document.querySelectorAll('i')
+console.log(star)
+let flag = true
 var stars_given = 0
 
-for (let i = 0; i < star.length; i++) {
-    star[i].addEventListener('click', function () {
-        stars_given = i + 1
-        alert(i + 1)
-    })
+if (flag == true) {
+    for (let i = 0; i < star.length; i++) {
+
+        //cahange color of data
+        star[i].addEventListener('mouseover', function () {
+            star[i].classList.remove("far");
+            star[i].classList.add("fas");
+        })
+
+        star[i].addEventListener('mouseout', function () {
+            star[i].classList.remove("fas");
+            star[i].classList.add("far");
+            star[i].addEventListener('click', function () {
+                flag = false
+                stars_given = i + 1
+
+                star[i].addEventListener('mouseout', function () {
+                    star[i].classList.remove("far");
+                    star[i].classList.add("fas");
+                    for (let j = 0; j < stars_given; j++) {
+                        // alert(j)
+                        star[j].classList.remove("far");
+                        star[j].classList.add("fas");
+                        star[j].style.color = "#FFC831"
+                    }
+                })
+
+            })
+        })
+    }
+
 }
 
+// add data to database
 let btn_review = document.getElementById('btn_review')
 
-btn_review.addEventListener('click', function(){
+btn_review.addEventListener('click', function () {
     event.preventDefault()
 
     // fetching name and review by the user
@@ -139,17 +173,30 @@ btn_review.addEventListener('click', function(){
         "review": review,
         "stars": stars_given,
         "website": domain
-      }
+    }
 
+    let website = {
+        "website": domain
+    }
 
-      fetch('http://reviews.gunjan.tech/review/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(user)
-        })
+    fetch('http://reviews.gunjan.tech/review/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+    })
         .then(response => response.json())
         .then(res => alert(res['message']))
+        .then(res => window.location.reload())
 
 })
+
+// redirect to new page
+function clickHandler(e) {
+    chrome.tabs.update({ url: "./redirect.html" });
+    window.close();
+}
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('click-me').addEventListener('click', clickHandler);
+});
