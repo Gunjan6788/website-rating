@@ -1,12 +1,15 @@
 var domain = ""
 var send_response = []
 
+//current domain name
 chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     var tab = tabs[0];
     var url = new URL(tab.url)
     domain = url.hostname
 
-    localStorage.setItem("web-site", JSON.stringify(domain))
+    chrome.storage.local.set({'domain':domain}, function(){
+        console.log("Data Entered")
+    })
 
     var app = document.getElementById("site")
     app.innerHTML = domain
@@ -193,10 +196,12 @@ btn_review.addEventListener('click', function () {
 })
 
 // redirect to new page
+
 function clickHandler(e) {
-    chrome.tabs.update({ url: "./redirect.html" });
+    chrome.tabs.update({ url: "./redirect.html"});
     window.close();
 }
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('click-me').addEventListener('click', clickHandler);
 });
+

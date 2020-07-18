@@ -1,33 +1,37 @@
 //getting the data from local storage
 
-let items = "github.com"
+let items = "www.flipkart.com"
+var send_response = []
 
-if (localStorage.getItem('data')) {
-    items = JSON.parse(localStorage.getItem('data'))
-  } 
-  else {
-    items = "www.taniarascia.com"
-  }
+chrome.storage.local.get('domain',function(data){
+        if(data.domain){
+            items = data.domain
+            document.getElementById("site").innerHTML = items
 
-  var top = document.getElementById("site").innerHTML = items
+            var user = {
+                "website": items
+            }
+        
+            fetch_rev(user)    
+            
+        }
+    })
 
 //fetching the reviews from api
-
-var user = {
-    "website": items
+function fetch_rev(param){
+    let response = fetch('http://reviews.gunjan.tech/review/get', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(param)
+            })
+            .then(response=> response.json())
+            .then(res=>send_response=res["data"])
 }
 
-var send_response = []
-      
-let response = fetch('http://reviews.gunjan.tech/review/get', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-    },
-    body: JSON.stringify(user)
-})
-.then(response=> response.json())
-.then(res=>send_response=res["data"])
+
+
 
 setTimeout(function(){
     console.log(send_response)
@@ -44,8 +48,12 @@ setTimeout(function(){
             div_sec.setAttribute("class", "card-body")
 
             var h5 = document.createElement("h5")
-            h5.setAttribute("class", "card-title font-weight-bolder")
+            h5.setAttribute("class", "card-title font-weight-bolder col-6")
             h5.innerHTML = send_response[i]["name"]
+
+            var h5_b = document.createElement("h5")
+            h5_b.setAttribute("class", "card-title font-weight-bolder col-6 text-right")
+            h5_b.innerHTML = send_response[i]["stars"]
 
             var h6 = document.createElement("h6")
             h6.setAttribute("class", "card-subtitle mb-2 text-dark")
@@ -69,15 +77,4 @@ setTimeout(function(){
     }
 
 },1000)
-
-{/* <div class="col-4 card bg-secondary mx-auto">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
-            </div> */}
-    
 
