@@ -21,7 +21,15 @@ chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     get_data(user)
 
     setTimeout(function(){
-        show_ratings(send_response)
+        if(send_response.length != 0){
+            show_ratings(send_response)
+        }
+        else{
+            chrome.storage.local.set({'avg':"0"}, function(){
+                console.log("Data Entered")
+            })
+        }
+        
     }, 1000)
     
 
@@ -172,6 +180,7 @@ if (flag == true) {
 
 // add data to database
 let btn_review = document.getElementById('btn_review')
+var complete = ""
 
 btn_review.addEventListener('click', function () {
     event.preventDefault()
@@ -201,7 +210,7 @@ btn_review.addEventListener('click', function () {
         body: JSON.stringify(user)
     })
         .then(response => response.json())
-        .then(res => alert(res['message']))
+        .then(res => complete = res['message'])
         .then(res => window.location.reload())
 
 })
@@ -238,4 +247,8 @@ function show_ratings(my_data){
     var color = ["#FF0000", "#FFFF00", "#FFFF00", "#7FFF00", "#00FF00"]
 
     pos.style.backgroundColor = color[avg_rating]
+
+    chrome.storage.local.set({'avg':avg_rating}, function(){
+        console.log("Data Entered")
+    })
 }
