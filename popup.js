@@ -292,3 +292,8 @@ function show_ratings(my_data) {
         console.log("Data Entered")
     })
 }
+
+var prec = document.getElementById("prec")
+prec.addEventListener("click", function(){
+    window.location.href = "/caution.html"
+})
