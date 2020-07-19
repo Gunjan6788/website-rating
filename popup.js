@@ -7,7 +7,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     var url = new URL(tab.url)
     domain = url.hostname
 
-    chrome.storage.local.set({'domain':domain}, function(){
+    chrome.storage.local.set({ 'domain': domain }, function () {
         console.log("Data Entered")
     })
 
@@ -20,10 +20,10 @@ chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     }
     get_data(user)
 
-    setTimeout(function(){
+    setTimeout(function () {
         show_ratings(send_response)
     }, 1000)
-    
+
 
 });
 
@@ -70,7 +70,7 @@ setTimeout(function () {
 
     }
 
-    for (var k = send_response.length-1; k > send_response.length-4; k--) {
+    for (var k = send_response.length - 1; k > send_response.length - 4; k--) {
         if (send_response.length !== 0) {
             var reviews = document.getElementById("reviews")
 
@@ -98,17 +98,38 @@ setTimeout(function () {
             var blckqoute = document.createElement("blockquote")
             blckqoute.setAttribute("class", "blockquote")
 
-            var cmt = document.createElement("div")
-            cmt.innerHTML = send_response[k]["review"]
+            var cmt = document.createElement("p")
             cmt.style.fontSize = '12px'
             cmt.style.marginTop = '-10px'
 
+            var showChar = 100
+            var content = send_response[k]["review"]
+            console.log(content)
+
             var date = send_response[k]["date"].split(" ")
+
+            if (content.length > showChar) {
+                var c = content.substr(0, showChar);
+                var s1 = document.createElement("p")
+                s1.innerHTML = c + '  .....'
+                cmt.appendChild(s1)
+
+                var ftr1 = document.createElement("footer")
+                ftr1.setAttribute("class", "blockquote-footer")
+                ftr1.innerHTML = date[0]
+                ftr1.style.fontSize = '10px'
+                ftr1.style.marginTop = '-11px'
+
+                cmt.appendChild(ftr1)
+            }
+            else {
+                cmt.innerHTML = content
+            }
+
             var ftr = document.createElement("footer")
             ftr.setAttribute("class", "blockquote-footer")
             ftr.innerHTML = date[0]
             ftr.style.fontSize = '10px'
-
 
             blckqoute.appendChild(cmt)
             blckqoute.appendChild(ftr)
@@ -121,7 +142,7 @@ setTimeout(function () {
 
             reviews.appendChild(reviews_card)
         }
-        else{
+        else {
             var reviews = document.getElementById("reviews")
             reviews.setAttribute("class", "mt-5 text-danger")
             reviews.style.fontSize = "20px"
@@ -209,7 +230,7 @@ btn_review.addEventListener('click', function () {
 // redirect to new page
 
 function clickHandler(e) {
-    chrome.tabs.update({ url: "./redirect.html"});
+    chrome.tabs.update({ url: "./redirect.html" });
     window.close();
 }
 document.addEventListener('DOMContentLoaded', function () {
@@ -219,21 +240,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //show the real rating of the page
 
-function show_ratings(my_data){
+function show_ratings(my_data) {
     var tot = 0
     var rev = 0
 
     var pos = document.getElementById("stat")
 
-    for(var i=0; i< my_data.length; i++){
-        tot ++
+    for (var i = 0; i < my_data.length; i++) {
+        tot++
         rev += my_data[i]["stars"]
-        pos.innerHTML = Math.ceil(rev/tot)
+        pos.innerHTML = Math.ceil(rev / tot)
     }
 
-    avg_rating = Math.ceil(rev/tot)
-    
-    
+    avg_rating = Math.ceil(rev / tot)
+
+
 
     var color = ["#FF0000", "#FFFF00", "#FFFF00", "#7FFF00", "#00FF00"]
 
