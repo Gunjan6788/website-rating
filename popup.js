@@ -20,6 +20,11 @@ chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     }
     get_data(user)
 
+    setTimeout(function(){
+        show_ratings(send_response)
+    }, 1000)
+    
+
 });
 
 // get data 
@@ -116,6 +121,12 @@ setTimeout(function () {
 
             reviews.appendChild(reviews_card)
         }
+        else{
+            var reviews = document.getElementById("reviews")
+            reviews.setAttribute("class", "mt-5 text-danger")
+            reviews.style.fontSize = "20px"
+            reviews.innerHTML = "NO DATA FOUND. It starts with you!"
+        }
     }
 }, 1000)
 
@@ -205,3 +216,26 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('click-me').addEventListener('click', clickHandler);
 });
 
+
+//show the real rating of the page
+
+function show_ratings(my_data){
+    var tot = 0
+    var rev = 0
+
+    var pos = document.getElementById("stat")
+
+    for(var i=0; i< my_data.length; i++){
+        tot ++
+        rev += my_data[i]["stars"]
+        pos.innerHTML = Math.ceil(rev/tot)
+    }
+
+    avg_rating = Math.ceil(rev/tot)
+    
+    
+
+    var color = ["#FF0000", "#FFFF00", "#FFFF00", "#7FFF00", "#00FF00"]
+
+    pos.style.backgroundColor = color[avg_rating]
+}
