@@ -20,16 +20,16 @@ chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     }
     get_data(user)
 
-    setTimeout(function(){
-        if(send_response.length != 0){
+    setTimeout(function () {
+        if (send_response.length != 0) {
             show_ratings(send_response)
         }
-        else{
-            chrome.storage.sync.set({'avg':"0"}, function(){
+        else {
+            chrome.storage.sync.set({ 'avg': "0" }, function () {
                 console.log("Data Entered")
             })
         }
-        
+
     }, 1000)
 
 
@@ -129,18 +129,22 @@ setTimeout(function () {
                 ftr1.style.marginTop = '-11px'
 
                 cmt.appendChild(ftr1)
+                blckqoute.appendChild(cmt)
+                blckqoute.appendChild(ftr1)
             }
             else {
-                cmt.innerHTML = content
+                var s2 = document.createElement("p")
+                s2.innerHTML = content
+                cmt.appendChild(s2)
+
+                var ftr = document.createElement("footer")
+                ftr.setAttribute("class", "blockquote-footer")
+                ftr.innerHTML = date[0]
+                ftr.style.fontSize = '10px'
+
+                blckqoute.appendChild(cmt)
+                blckqoute.appendChild(ftr)
             }
-
-            var ftr = document.createElement("footer")
-            ftr.setAttribute("class", "blockquote-footer")
-            ftr.innerHTML = date[0]
-            ftr.style.fontSize = '10px'
-
-            blckqoute.appendChild(cmt)
-            blckqoute.appendChild(ftr)
 
             reviews_body.appendChild(blckqoute)
             reviews_header.appendChild(user_name)
@@ -269,7 +273,7 @@ function show_ratings(my_data) {
 
     pos.style.backgroundColor = color[avg_rating]
 
-    chrome.storage.local.set({'avg':avg_rating}, function(){
+    chrome.storage.local.set({ 'avg': avg_rating }, function () {
         console.log("Data Entered")
     })
 }
