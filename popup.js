@@ -77,13 +77,28 @@ setTimeout(function () {
         }
 
     }
+    var reviews = document.getElementById("reviews")
+    var show_reviews = document.createElement("div")
+    show_reviews.style.fontSize = '12px'
+    show_reviews.style.marginBottom = '-2px'
+    show_reviews.style.marginTop = '2px'
+    if(len > 3){
+        show_reviews.innerHTML = "showing you 3 out of "+ len +" reviews." 
+    }
+    else if(len == 1){
+        show_reviews.innerHTML = "showing you "+ len +" review."
+    }
+    else{
+        show_reviews.innerHTML = "showing you "+ len +" reviews."
+    }
+    
+    reviews.appendChild(show_reviews)
 
     for (var k = send_response.length - 1; k > send_response.length - 4; k--) {
         if (send_response.length !== 0) {
-            var reviews = document.getElementById("reviews")
 
             var reviews_card = document.createElement("div")
-            reviews_card.setAttribute("class", "card rounded mt-2")
+            reviews_card.setAttribute("class", "card rounded my-1")
             reviews_card.style.maxWidth = '450px'
             reviews_card.style.maxHeight = '100px'
             reviews_card.style.fontSize = '12px'
