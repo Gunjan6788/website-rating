@@ -25,7 +25,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
             show_ratings(send_response)
         }
         else{
-            chrome.storage.local.set({'avg':"0"}, function(){
+            chrome.storage.sync.set({'avg':"0"}, function(){
                 console.log("Data Entered")
             })
         }
